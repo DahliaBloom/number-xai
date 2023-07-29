@@ -107,6 +107,7 @@
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div
     class="border-primary border rounded-lg aspect-square"
+    class:cursor-crosshair={editable}
     id="inner"
     on:mouseup={() => {
       penDown = false;
