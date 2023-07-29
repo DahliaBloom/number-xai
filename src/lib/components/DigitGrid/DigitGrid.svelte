@@ -90,13 +90,14 @@
   let points: Position[] = [];
   let penDown = false;
 
-  export let image: number[] = Array(784).fill(0);
-  $: image = getImageValues(points);
+  export let editable = false;
 
-  $: image && dispatch("center", getImageValues(center(image, points)));
+  export let image: number[] = Array(784).fill(0);
+  $: image = editable ? getImageValues(points) : image;
+
+  $: if (editable) dispatch("center", getImageValues(center(image, points)));
 
   export let toColor = (p: number) => `rgba(231, 121, 193, ${p})`;
-  export let editable = false;
 </script>
 
 <div

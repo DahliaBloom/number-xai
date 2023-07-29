@@ -3,9 +3,12 @@
   import NN from "$lib/components/ResultPanel/NN/NN.svelte";
   import Collapsable from "./Collapsable.svelte";
   import DigitGrid from "../DigitGrid/DigitGrid.svelte";
+  import nn from "$lib/util/nn/nn.json";
+  import HeatMapSelectedNeuron from "./HeatMapSelectedNeuron.svelte";
 
   export let output: NNResult;
   export let fullscreen: boolean;
+  export let selectedNeuron = [0, 14];
 </script>
 
 <div class="overflow-auto w-full h-full space-y-3">
@@ -54,11 +57,14 @@
   </div>
   <!-- TODO scrollbar & fade-->
   <Collapsable heading="Neuronal Network"><NN {output} /></Collapsable>
-  {#each output.layers as layer, i}
-    <Collapsable heading="Heatmap Layer {i}">
-      <div class="w-full h-[70vh]">
-        <DigitGrid image={layer} />
-      </div>
+  <Collapsable heading="Normalized Image"
+    ><div class="w-full h-[50vh]">
+      <DigitGrid image={output.layers[0]} />
+    </div></Collapsable
+  >
+  {#if selectedNeuron !== undefined}
+    <Collapsable heading="Heatmap Selected Neuron">
+      <HeatMapSelectedNeuron {output} {selectedNeuron} />
     </Collapsable>
-  {/each}
+  {/if}
 </div>
