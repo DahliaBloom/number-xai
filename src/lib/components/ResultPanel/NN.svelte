@@ -44,12 +44,7 @@
         {#each [...Array(16).keys()] as ii}
           <line x1={x} y1={y} x2={100 / 3} y2={2.5 + 4.5 * ii} class="line" />
         {/each}
-        <circle
-          class="neuron stroke-primary"
-          cx={x}
-          cy={y}
-          fill="rgba(0,0,0,0)"
-        />
+        <circle class="neuron" cx={x} cy={y} fill="rgba(0,0,0,0)" />
       {/if}
     {/each}
     {#each [...Array(16).keys()] as i}
@@ -63,11 +58,11 @@
       <!-- TODO unselect neuron-->
       <!-- TODO lines with transparent visible-->
       <circle
-        class="neuron cursor-pointer {selectedNeuron !== undefined &&
+        class="cursor-pointer {selectedNeuron !== undefined &&
         selectedNeuron[0] === 0 &&
         selectedNeuron[1] === i
-          ? 'stroke-secondary'
-          : 'stroke-primary'}"
+          ? 'neuron-selected'
+          : 'neuron'}"
         cx={x}
         cy={y}
         fill="rgba(231,121,193,{output.layers[1][i]})"
@@ -89,11 +84,11 @@
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
       <circle
-        class="neuron cursor-pointer {selectedNeuron !== undefined &&
+        class="cursor-pointer {selectedNeuron !== undefined &&
         selectedNeuron[0] === 1 &&
         selectedNeuron[1] === i
-          ? 'stroke-secondary'
-          : 'stroke-primary'}"
+          ? 'neuron-selected'
+          : 'neuron'}"
         cx={x}
         cy={y}
         fill="rgba(231,121,193,{output.layers[2][i]})"
@@ -110,11 +105,11 @@
       <!-- svelte-ignore a11y-click-events-have-key-events -->
       <!-- svelte-ignore a11y-no-static-element-interactions -->
       <circle
-        class="neuron cursor-pointer {selectedNeuron !== undefined &&
+        class="cursor-pointer {selectedNeuron !== undefined &&
         selectedNeuron[0] === 2 &&
         selectedNeuron[1] === i
-          ? 'stroke-secondary'
-          : 'stroke-primary'}"
+          ? 'neuron-selected'
+          : 'neuron'}"
         cx={97}
         cy={17 + 4.5 * i}
         fill="rgba(231,121,193,{output.layers[3][i]})"
@@ -133,7 +128,14 @@
 <style lang="postcss">
   .neuron {
     r: 2;
+    stroke: theme(colors.primary);
     stroke-width: 0.1;
+  }
+
+  .neuron-selected {
+    r: 2;
+    stroke: theme(colors.secondary);
+    stroke-width: 0.3;
   }
 
   .collapse-circle {

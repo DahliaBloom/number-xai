@@ -64,7 +64,7 @@
     ><NN {output} bind:selectedNeuron /></Collapsable
   >
   {#if selectedNeuron !== undefined}
-    <Collapsable heading="Heatmap Selected Neuron">
+    <Collapsable heading="Heatmap Layer {selectedNeuron[0] + 1} Neuron {selectedNeuron[1] + 1}">
       <HeatMapSelectedNeuron {output} {selectedNeuron} />
     </Collapsable>
   {/if}

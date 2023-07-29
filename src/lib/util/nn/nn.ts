@@ -63,23 +63,20 @@ export type NNResult = {
   digit: number;
 };
 
+// TODO colors global norm
 export function weightToColor(p: number, min: number, max: number): string {
-  if (p === 0) return "rgba(0, 0, 0, 0)";
+  if (p === 0) return "rgba(0,0,0,0)";
 
-  const startColor = { r: 88, g: 199, b: 243 };
-  const endColor = { r: 231, g: 121, b: 193 };
+  let c = { r: 88, g: 199, b: 243 };
+  let u = max;
+  const neagtiveC = { r: 231, g: 121, b: 193 };
 
-  const fade = (p - min) / (max - min);
+  if (p < 0) {
+    c = neagtiveC;
+    u = Math.abs(min);
+  }
 
-  let diffRed = endColor.r - startColor.r;
-  let diffGreen = endColor.g - startColor.g;
-  let diffBlue = endColor.b - startColor.b;
-
-  diffRed = diffRed * fade + startColor.r;
-  diffGreen = diffGreen * fade + startColor.g;
-  diffBlue = diffBlue * fade + startColor.b;
-
-  return `rgb(${diffRed}, ${diffGreen}, ${diffBlue})`;
+  return `rgba(${c.r}, ${c.g}, ${c.b}, ${Math.abs(p) / u})`;
 }
 
 export function weightToColorPositive(
