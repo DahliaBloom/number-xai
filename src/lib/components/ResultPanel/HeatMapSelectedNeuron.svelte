@@ -1,6 +1,7 @@
 <script lang="ts">
-  import DigitGrid from "../DigitGrid/DigitGrid.svelte";
+  import { weightsMinMax } from "$lib/util/nn/nn";
   import nn from "$lib/util/nn/nn.json";
+  import DigitGrid from "../DigitGrid/DigitGrid.svelte";
   import {
     weightToColor,
     weightToColorNegative,
@@ -19,8 +20,8 @@
       toColor={(p) =>
         weightToColor(
           p,
-          Math.min(...nn.weights[selectedNeuron[0]][selectedNeuron[1]]),
-          Math.max(...nn.weights[selectedNeuron[0]][selectedNeuron[1]])
+          weightsMinMax[selectedNeuron[0]].min,
+          weightsMinMax[selectedNeuron[0]].max
         )}
     />
   </div>
@@ -30,8 +31,8 @@
       toColor={(p) =>
         weightToColorPositive(
           p,
-          Math.min(...nn.weights[selectedNeuron[0]][selectedNeuron[1]]),
-          Math.max(...nn.weights[selectedNeuron[0]][selectedNeuron[1]])
+          weightsMinMax[selectedNeuron[0]].min,
+          weightsMinMax[selectedNeuron[0]].max
         )}
     />
   </div>
@@ -41,8 +42,8 @@
       toColor={(p) =>
         weightToColorNegative(
           p,
-          Math.min(...nn.weights[selectedNeuron[0]][selectedNeuron[1]]),
-          Math.max(...nn.weights[selectedNeuron[0]][selectedNeuron[1]])
+          weightsMinMax[selectedNeuron[0]].min,
+          weightsMinMax[selectedNeuron[0]].max
         )}
     />
   </div>
@@ -85,10 +86,10 @@
 </div>
 
 <style>
-    .con {
-        width: 100%;
-        aspect-ratio: 1;
-        max-height: 50vh;
-        padding: 0.3rem;
-    }
+  .con {
+    width: 100%;
+    aspect-ratio: 1;
+    max-height: 50vh;
+    padding: 0.3rem;
+  }
 </style>
