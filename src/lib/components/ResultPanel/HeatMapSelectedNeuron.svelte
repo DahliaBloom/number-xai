@@ -1,5 +1,5 @@
 <script lang="ts">
-  import { weightsMinMax } from "$lib/util/nn/nn";
+  import { weightsBoundaries } from "$lib/util/nn/nn";
   import nn from "$lib/util/nn/nn.json";
   import DigitGrid from "../DigitGrid/DigitGrid.svelte";
   import {
@@ -11,78 +11,38 @@
 
   export let output: NNResult;
   export let selectedNeuron: number[];
+
+  const grids = [
+    {
+      image: nn.weights[selectedNeuron[0]][selectedNeuron[1]],
+      boundaries: weightsBoundaries[selectedNeuron[0]],
+    },
+    {
+      image: output.weightsRes[selectedNeuron[0]][selectedNeuron[1]],
+      boundaries: {
+        min: Math.min(
+          ...output.weightsRes[selectedNeuron[0]][selectedNeuron[1]]
+        ),
+        max: Math.max(
+          ...output.weightsRes[selectedNeuron[0]][selectedNeuron[1]]
+        ),
+      },
+    },
+  ];
 </script>
 
 <div class="grid grid-cols-3">
-  <div class="con">
-    <DigitGrid
-      image={nn.weights[selectedNeuron[0]][selectedNeuron[1]]}
-      toColor={(p) =>
-        weightToColor(
-          p,
-          weightsMinMax[selectedNeuron[0]].min,
-          weightsMinMax[selectedNeuron[0]].max
-        )}
-    />
-  </div>
-  <div class="con">
-    <DigitGrid
-      image={nn.weights[selectedNeuron[0]][selectedNeuron[1]]}
-      toColor={(p) =>
-        weightToColorPositive(
-          p,
-          weightsMinMax[selectedNeuron[0]].min,
-          weightsMinMax[selectedNeuron[0]].max
-        )}
-    />
-  </div>
-  <div class="con">
-    <DigitGrid
-      image={nn.weights[selectedNeuron[0]][selectedNeuron[1]]}
-      toColor={(p) =>
-        weightToColorNegative(
-          p,
-          weightsMinMax[selectedNeuron[0]].min,
-          weightsMinMax[selectedNeuron[0]].max
-        )}
-    />
-  </div>
-  <div class="con">
-    <!-- TODO change for other layers -->
-    <DigitGrid
-      image={output.weightsRes[selectedNeuron[0]][selectedNeuron[1]]}
-      toColor={(p) =>
-        weightToColor(
-          p,
-          Math.min(...output.weightsRes[selectedNeuron[0]][selectedNeuron[1]]),
-          Math.max(...output.weightsRes[selectedNeuron[0]][selectedNeuron[1]])
-        )}
-    />
-  </div>
-  <div class="con">
-    <!-- TODO change for other layers -->
-    <DigitGrid
-      image={output.weightsRes[selectedNeuron[0]][selectedNeuron[1]]}
-      toColor={(p) =>
-        weightToColorPositive(
-          p,
-          Math.min(...output.weightsRes[selectedNeuron[0]][selectedNeuron[1]]),
-          Math.max(...output.weightsRes[selectedNeuron[0]][selectedNeuron[1]])
-        )}
-    />
-  </div>
-  <div class="con">
-    <!-- TODO change for other layers -->
-    <DigitGrid
-      image={output.weightsRes[selectedNeuron[0]][selectedNeuron[1]]}
-      toColor={(p) =>
-        weightToColorNegative(
-          p,
-          Math.min(...output.weightsRes[selectedNeuron[0]][selectedNeuron[1]]),
-          Math.max(...output.weightsRes[selectedNeuron[0]][selectedNeuron[1]])
-        )}
-    />
-  </div>
+  {#each grids as grid}
+    {#each [weightToColor, weightToColorPositive, weightToColorNegative] as toColor}
+      <div class="con">
+        <!-- TODO change for other layers -->
+        <DigitGrid
+          image={grid.image}
+          toColor={(p) => toColor(p, grid.boundaries.min, grid.boundaries.max)}
+        />
+      </div>
+    {/each}
+  {/each}
 </div>
 
 <style>

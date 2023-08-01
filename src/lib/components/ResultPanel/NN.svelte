@@ -1,6 +1,6 @@
 <script lang="ts">
   import { gradient, toCSS } from "$lib/util/color";
-  import type { Position } from "$lib/util/geometry";
+  import type { Position } from "$lib/util/math";
   import { weightToColor, type NNResult } from "$lib/util/nn/nn";
 
   export let output: NNResult;
@@ -64,8 +64,8 @@
               class="line"
               stroke={weightToColor(
                 output.weightsRes[0][ii][376 + i],
-                output.weightsResMinMax[0].min,
-                output.weightsResMinMax[0].max
+                output.weightsResBoundaries[0].min,
+                output.weightsResBoundaries[0].max
               )}
               stroke-width="0.25"
             />
@@ -92,8 +92,8 @@
             class="line"
             stroke={weightToColor(
               output.weightsRes[1][ii][i],
-              output.weightsResMinMax[1].min,
-              output.weightsResMinMax[1].max
+              output.weightsResBoundaries[1].min,
+              output.weightsResBoundaries[1].max
             )}
             stroke-width="0.25"
           />
@@ -133,8 +133,8 @@
             class="line"
             stroke={weightToColor(
               output.weightsRes[2][ii][i],
-              output.weightsResMinMax[2].min,
-              output.weightsResMinMax[2].max
+              output.weightsResBoundaries[2].min,
+              output.weightsResBoundaries[2].max
             )}
             stroke-width="0.25"
           />

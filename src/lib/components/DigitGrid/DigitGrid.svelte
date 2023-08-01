@@ -1,6 +1,6 @@
 <script lang="ts" context="module">
   import { createEventDispatcher } from "svelte";
-  import { getX, getY, toPosition, type Position } from "$lib/util/geometry";
+  import { getX, getY, toPosition, type Position } from "$lib/util/math";
   const spacingSum = 20;
   const r = (100 - spacingSum) / 56;
   const spacing = 20 / 29;
