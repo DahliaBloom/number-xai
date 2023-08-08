@@ -1,9 +1,11 @@
 <script lang="ts">
   import DigitGridEditable from "$lib/components/DigitGrid/DigitGridEditable.svelte";
   import ResultPanel from "$lib/components/ResultPanel/ResultPanel.svelte";
+  import type { Vec } from "$lib/util/math";
   import { run } from "$lib/util/nn/nn";
 
   let image: number[] = Array(784).fill(0);
+  let points: Vec[] = [];
   $: output = run(image);
 </script>
 
@@ -11,10 +13,10 @@
 <div class="grid place-items-center h-[85vh]">
   <div class="flex gap-12 w-[93%]">
     <div class="flex-shrink-0 basis-[70vh] flex flex-col">
-      <DigitGridEditable bind:image {output} />
+      <DigitGridEditable bind:image {output} bind:points />
     </div>
     <div class="flex-grow">
-      <ResultPanel {output} />
+      <ResultPanel {output} {points} />
     </div>
   </div>
 </div>

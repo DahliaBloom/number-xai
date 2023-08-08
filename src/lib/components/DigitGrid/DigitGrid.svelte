@@ -31,18 +31,23 @@
       };
     }
   }
+
+  let height: number;
+  let width: number;
 </script>
 
 {#if !editable}
   <Tooltip {...tooltip} alignment={Alignment.Top} />
 {/if}
 <div
-  class="flex justify-center items-center w-full h-full flex-col"
+  class="flex items-center w-full h-full flex-col"
   id="container"
 >
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div
-    class="border-primary border bg-base-100 rounded-lg aspect-square select-none relative"
+    class="border-primary border bg-base-100 rounded-lg aspect-square select-none"
+    bind:clientHeight={height}
+    bind:clientWidth={width}
     class:cursor-crosshair={editable}
     id="inner"
     on:mouseup={() => {
@@ -86,7 +91,9 @@
   </div>
   {#if output !== undefined}
     <div
-      class="alert border border-primary bg-base-100 w-fit absolute right-[10px] bottom-[70px]"
+      class="alert border border-primary bg-base-100 w-fit absolute"
+      class:justify-center={!editable}
+      style="left: {width-190}px; top: {height-66}px;"
     >
       <svg
         height="100%"
