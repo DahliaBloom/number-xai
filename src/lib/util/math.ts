@@ -1,59 +1,32 @@
-import { weightsRes } from "./nn/nn";
-
-export type Position = {
+export type Vec = {
   x: number;
   y: number;
 };
 
-export function getAbsolutePosition(element: HTMLElement): Position {
-  let clientRect = element.getBoundingClientRect();
-  return {
-    x: clientRect.left + document.body.scrollLeft,
-    y: clientRect.top + document.body.scrollTop,
-  };
-}
-
-export const getX = (p: number) => p % 28;
-export const getY = (p: number) => Math.floor(p / 28);
-
-export const toPosition = (p: number): Position => {
-  return {
-    x: getX(p),
-    y: getY(p),
-  };
+export type Boundary<T> = {
+  min: T;
+  max: T;
 };
 
-export function dotProduct(vec1: number[], vec2: number[]): number {
-  let result = 0;
-  let l = weightsRes[weightsRes.length - 1];
-  for (let i = 0; i < vec1.length; i++) {
-    const p = vec1[i] * vec2[i];
-    l[l.length - 1].push(p);
-    result += p;
-  }
-  return result;
+export enum Alignment {
+  Left,
+  Right,
+  Bottom,
+  Top,
 }
 
-export function matrixVectorMult(
-  matrix: number[][],
-  vector: number[]
-): number[] {
-  let result = [];
-  for (let row = 0; row < matrix.length; row++) {
-    weightsRes[weightsRes.length - 1].push([]);
-    result.push(dotProduct(matrix[row], vector));
-  }
-  return result;
-}
+export const pixelToVec = (p: number): Vec => ({
+  x: p % 28,
+  y: Math.floor(p / 28),
+});
 
-export function vectorAdd(vec1: number[], vec2: number[]): number[] {
-  let result = [];
-  for (let i = 0; i < vec1.length; i++) {
-    result.push(vec1[i] + vec2[i]);
-  }
-  return result;
-}
+export const dotProduct = (vec1: number[], vec2: number[]): number =>
+  vec1.reduce((acc, c, i) => c * vec2[i] + acc, 0);
 
-export function sigmoid(x: number): number {
-  return 1 / (1 + Math.exp(-x));
-}
+export const matrixVecProduct = (matrix: number[][], vec: number[]): number[] =>
+  matrix.map((row) => dotProduct(row, vec));
+
+export const vecAdd = (vec1: number[], vec2: number[]): number[] =>
+  vec1.map((n, i) => n + vec2[i]);
+
+export const sigmoid = (x: number): number => 1 / (1 + Math.exp(-x));
