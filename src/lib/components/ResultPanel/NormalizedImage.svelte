@@ -32,7 +32,7 @@
   }, 1000 / 60);
 </script>
 
-<Collapsable heading="Normalized Image"
+<Collapsable heading="Normalizing Image"
   ><div class="w-full h-[20vh] flex items-center">
     <DigitGrid {image} />
     <p class="text-4xl">⇢</p>

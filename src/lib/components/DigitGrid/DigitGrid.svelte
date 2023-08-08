@@ -93,7 +93,7 @@
     <div
       class="alert border border-primary bg-base-100 w-fit absolute"
       class:justify-center={!editable}
-      style="left: {width-190}px; top: {height-66}px;"
+      style="left: {width-300}px; top: {height-66}px;"
     >
       <svg
         height="100%"
@@ -113,7 +113,7 @@
           />
         </g></svg
       >
-      <span>AI Prediction: {output.digit}</span>
+      <span>Circuit soothsaying whispers {output.digit}</span>
     </div>
   {/if}
 </div>
