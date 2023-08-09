@@ -18,16 +18,17 @@
 
   let penDown = false;
 
-  let tooltip: { data: any; element: HTMLElement | undefined } = {
+  export let hasTooltip = false;
+  let tooltip: { data: any; boundingRect: DOMRect | undefined } = {
     data: undefined,
-    element: undefined,
+    boundingRect: undefined,
   };
 
   function openTooltip(e: MouseEvent, val: any) {
-    if (editable) {
+    if (hasTooltip) {
       tooltip = {
         data: val,
-        element: e.target as HTMLElement,
+        boundingRect: (e.target as HTMLElement).getBoundingClientRect(),
       };
     }
   }
@@ -36,13 +37,10 @@
   let width: number;
 </script>
 
-{#if !editable}
-  <Tooltip {...tooltip} alignment={Alignment.Top} />
+{#if hasTooltip}
+  <Tooltip {...tooltip} alignment={Alignment.Top} offset={{ x: 0, y: -10 }} />
 {/if}
-<div
-  class="flex items-center w-full h-full flex-col"
-  id="container"
->
+<div class="flex items-center w-full h-full flex-col" id="container">
   <!-- svelte-ignore a11y-no-static-element-interactions -->
   <div
     class="border-primary border bg-base-100 rounded-lg aspect-square select-none"
@@ -54,6 +52,7 @@
       penDown = false;
     }}
   >
+    <!-- TODO grow circle on hover -->
     <svg width="100%" height="100%">
       {#each image as val, i}
         {@const vec = pixelToVec(i)}
@@ -62,7 +61,7 @@
         <circle
           cx={spacing * (vec.x + 1) + (vec.x * 2 + 1) * r + "%"}
           cy={spacing * (vec.y + 1) + (vec.y * 2 + 1) * r + "%"}
-          r={r + "%"}
+          class={hasTooltip ? "tooltip-circle" : "circle"}
           fill={toColor(val)}
           on:mousemove={(e) => {
             if (editable && e.buttons === 1) {
@@ -84,7 +83,7 @@
           on:mouseenter={(e) => {
             if (val !== 0) openTooltip(e, val.toFixed(3));
           }}
-          on:mouseleave={() => (tooltip.element = undefined)}
+          on:mouseleave={() => (tooltip.boundingRect = undefined)}
         />
       {/each}
     </svg>
@@ -93,10 +92,10 @@
     <div
       class="alert border border-primary bg-base-100 w-fit absolute"
       class:justify-center={!editable}
-      style="left: {width-300}px; top: {height-66}px;"
+      style="left: {width - 240}px; top: {height - 64}px;"
     >
       <svg
-        height="100%"
+        height="90%"
         viewBox="0 0 15 15"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -113,7 +112,9 @@
           />
         </g></svg
       >
-      <span>Circuit soothsaying whispers {output.digit}</span>
+      <span class="font-light"
+        >Circuit oracle whispers <b>{output.digit}</b></span
+      >
     </div>
   {/if}
 </div>
@@ -133,5 +134,27 @@
       width: auto;
       height: 100%;
     }
+  }
+
+  b {
+    background: -webkit-linear-gradient(
+      40deg,
+      theme(colors.primary) 0%,
+      theme(colors.secondary) 100%
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .circle {
+    r: 1.43%
+  }
+
+  .tooltip-circle {
+    r: 1.43%
+  }
+
+  .tooltip-circle:hover {
+    r: 1.6%
   }
 </style>

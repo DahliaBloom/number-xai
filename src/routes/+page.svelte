@@ -25,7 +25,7 @@
   h1 {
     text-align: center;
     padding-top: 1vh;
-    padding-bottom: 1vh;
+    padding-bottom: 2vh;
     font-size: 7vh;
     font-family: Anton;
     background: -webkit-linear-gradient(

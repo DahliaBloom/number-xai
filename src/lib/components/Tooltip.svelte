@@ -3,9 +3,8 @@
 
   export let data: any;
   export let alignment: Alignment;
-  export let element: HTMLElement | undefined;
-
-  $: rect = element?.getBoundingClientRect();
+  export let boundingRect: DOMRect | undefined;
+  export let offset: Vec = { x: 0, y: 0 };
 
   function getAlignment(alignment: Alignment) {
     switch (alignment) {
@@ -21,13 +20,13 @@
   }
 </script>
 
-{#if element != undefined && rect != undefined}
+{#if boundingRect != undefined}
   <div
     class="fixed pointer-events-none z-50"
-    style="left: {rect.left}px; top: {rect.top}px;"
+    style="left: {boundingRect.left + offset.x}px; top: {boundingRect.top + offset.y}px;"
   >
     <div class="tooltip tooltip-open {getAlignment(alignment)}" data-tip={data}>
-      <div style="width: {rect.width}px; height: {rect.height}px;" />
+      <div style="width: {boundingRect.width}px; height: {boundingRect.height}px;" />
     </div>
   </div>
 {/if}
