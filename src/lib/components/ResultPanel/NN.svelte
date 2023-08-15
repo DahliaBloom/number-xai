@@ -34,6 +34,17 @@
     data: undefined,
     boundingRect: undefined,
   };
+
+  function drawLine(n: number, nextN: number, l: number, _: any): boolean {
+    return (
+      (selectedNeuron === undefined ||
+        selectedNeuron.x - 1 !== l ||
+        selectedNeuron.y === nextN) &&
+      (selectedNeuron === undefined ||
+        selectedNeuron!.x !== l ||
+        selectedNeuron!.y === n)
+    );
+  }
 </script>
 
 <Tooltip {...tooltip} alignment={Alignment.Left} />
@@ -52,7 +63,7 @@
             {#if i !== 3}
               {@const nextLayer = nnData[i + 1]}
               {#each [...Array(nextLayer.neurons).keys()] as nextN}
-                {#if selectedNeuron === undefined || selectedNeuron.x !== i + 1 || selectedNeuron.y === nextN}
+                {#if drawLine(n, nextN, i, selectedNeuron)}
                   <line
                     x1={pos.x}
                     y1={pos.y}
@@ -96,7 +107,14 @@
               on:mouseleave={() => (tooltip.boundingRect = undefined)}
             />
             {#if i === 3}
-              <text x={pos.x + 3} y={pos.y} class="fill-base-content" dominant-baseline="middle" fill-opacity={output.layers[3][n]} style="font-size: 20%; font-family: monospace;">⇢ {n}</text>
+              <text
+                x={pos.x + 3}
+                y={pos.y}
+                class="fill-base-content"
+                dominant-baseline="middle"
+                fill-opacity={output.layers[3][n]}
+                style="font-size: 20%; font-family: monospace;">⇢ {n}</text
+              >
             {/if}
           {/if}
         {/each}

@@ -52,3 +52,4 @@ export const vecAdd = (vec1: number[], vec2: number[]): number[] =>
   vec1.map((n, i) => n + vec2[i]);
 
 export const sigmoid = (x: number): number => 1 / (1 + Math.exp(-x));
+export const logit = (x: number): number => Math.log(x / (1 - x));
