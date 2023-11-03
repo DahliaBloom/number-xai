@@ -19,38 +19,35 @@
   $: image = heatmap(output, selectedNeuron);
 
   // weightsBoundaries only abs(max) also in NNSvg
-  $: boundaries =
-    selectedNeuron.x === 1
-      ? nnMeta.weightsBoundaries[0][selectedNeuron.y]
-      : { min: -10, max: 10 };
+  $: m = Math.max(Math.abs(Math.min(...image)), Math.max(...image));
+  $: boundaries = { min: -1, max: 1 };
+
+  $: imgNorm = image.map((v) => v / m);
 </script>
 
 <Collapsable
-  heading="Heatmap Layer {selectedNeuron.x} Neuron {selectedNeuron.y}"
+  heading="Saliency Map {selectedNeuron.x} Neuron {selectedNeuron.y}"
 >
   <div class="grid grid-cols-3">
     <div class="w-full aspect-square max-h-[50vh] p-1">
-      <!-- TODO change for other layers -->
       <DigitGrid
-        {image}
+        image={imgNorm}
         toColor={(p) =>
           toCSS(weightToColor(p, boundaries, accent, base100, primary))}
         hasTooltip={true}
       />
     </div>
     <div class="w-full aspect-square max-h-[50vh] p-1">
-      <!-- TODO change for other layers -->
       <DigitGrid
-        {image}
+        image={imgNorm}
         toColor={(p) =>
           toCSS(weightToColor(p, boundaries, base100, base100, primary))}
         hasTooltip={true}
       />
     </div>
     <div class="w-full aspect-square max-h-[50vh] p-1">
-      <!-- TODO change for other layers -->
       <DigitGrid
-        {image}
+        image={imgNorm}
         toColor={(p) =>
           toCSS(weightToColor(p, boundaries, accent, base100, base100))}
         hasTooltip={true}

@@ -7,6 +7,7 @@
   import DigitGrid from "./DigitGrid.svelte";
 
   export let points: Vec[] = [];
+  export let focusedPixel: number | undefined = undefined;
 
   let imageRaw: number[] = Array(784).fill(0);
   $: imageRaw = getImageValues(points);
@@ -25,6 +26,7 @@
   <DigitGrid
     bind:image={imageRaw}
     bind:points
+    bind:focusedPixel
     {toColor}
     editable={true}
     {output}

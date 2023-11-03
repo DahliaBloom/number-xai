@@ -5,8 +5,9 @@ export const toCSS = (c: Color) => `rgba(${c.r},${c.g},${c.b},${c.a})`;
 export const primary = { r: 230, g: 44, b: 132, a: 1 };
 export const primaryDark = { r: 120, g: 44, b: 100, a: 1 };
 export const base100 = { r: 26, g: 16, b: 60, a: 1 };
-export const neutral = {r: 34, g: 21, b: 81, a: 1};
+export const neutral = { r: 34, g: 21, b: 81, a: 1 };
 export const accent = { r: 79, g: 148, b: 255, a: 1 };
+export const accentPlus = { r: 12, g: 16, b: 255, a: 1 };
 
 export const gradient = (start: Color, end: Color, pos: number): Color => {
   return {

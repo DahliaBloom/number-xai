@@ -6,6 +6,7 @@
 
   let image: number[] = Array(784).fill(0);
   let points: Vec[] = [];
+  let focusedPixel: number | undefined = undefined;
   $: output = run(image);
 </script>
 
@@ -13,10 +14,10 @@
 <div class="grid place-items-center h-[85vh]">
   <div class="flex gap-12 w-[93%]">
     <div class="flex-shrink-0 basis-[70vh] flex flex-col">
-      <DigitGridEditable bind:image {output} bind:points />
+      <DigitGridEditable bind:image {output} bind:points bind:focusedPixel />
     </div>
     <div class="flex-grow">
-      <ResultPanel {output} {points} />
+      <ResultPanel {output} {points} {focusedPixel} {image} />
     </div>
   </div>
 </div>

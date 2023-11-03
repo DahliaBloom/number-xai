@@ -25,6 +25,7 @@
 	},
 	"type": "module",
 	"dependencies": {
-		"chart.js": "^4.3.3"
+		"chart.js": "^4.3.3",
+		"mnist": "^1.1.0"
 	}
 }
