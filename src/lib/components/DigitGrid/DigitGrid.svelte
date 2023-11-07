@@ -59,8 +59,8 @@
       <div
         class="absolute w-full h-full grid place-content-center pointer-events-none"
       >
-        <p class="text-primary font-light text-xl italic">
-          Double click to clear the canvas
+        <p class="text-primary font-light text-xl italic text-center">
+          Double click to clear the canvas <br> or single click on a pixel to select it.
         </p>
       </div>
     {/if}
